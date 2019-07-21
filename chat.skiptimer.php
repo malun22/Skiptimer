@@ -18,8 +18,8 @@
  * LICENSE: This program is free software: you can         *
  * redistribute it and/or modify it under the terms of the *
  * GNU General Public License as published by the Free     *
- * Software Foundation, either version 3 of the License, or*
- * (at your option) any later version.                     *
+ * Software Foundation, either version 3 of the License,   *
+ * or (at your option) any later version.                  *
  *                                                         *
  * This program is distributed in the hope that it will be *
  * useful, but WITHOUT ANY WARRANTY; without even the      *
@@ -45,8 +45,8 @@ global $st_skiptime, $st_SkiptimerActivated, $st_SkipTimeAmount, $st_perm;
 //[3]: Only Masteradmin, [2]: Masteradmin and Admin, [1]: Masteradmin, Admin and Operator, [0]: No permissions required
 $st_perm = 2;
 
-Aseco::registerEvent("onEndRace", "skiptimer_resettimer");
-Aseco::registerEvent("Startup", "skiptimer_resettimer");
+Aseco::registerEvent("onRestartChallenge", "skiptimer_resettimer");
+Aseco::registerEvent("onNewChallenge", "skiptimer_resettimer");
 Aseco::registerEvent("onEverySecond", "skiptimer_onEverySecond");
  
 Aseco::addChatCommand("skiptimer","Creates the skiptimer environment");
@@ -67,24 +67,24 @@ function skiptimer_onEverySecond($aseco) {
 		if ($st_skiptime - $st_skiptimeamount / 2 == time()) { //50% timer Warning
 			$aseco->client->query('ChatSendServerMessage', '$z$s>> The map will be skipped in $b00'. ($st_skiptimeamount / 2) . ' $z$sminute.');
 		}
-		if ($st_skiptime - $st_skiptimeamount / 10 == time()) { //10% timer Warning
+		elseif ($st_skiptime - $st_skiptimeamount / 10 == time()) { //10% timer Warning
 			$aseco->client->query('ChatSendServerMessage', '$z$s>> The map will be skipped in $b00'. ($st_skiptimeamount / 10) . ' $z$sminute.');
 		}
 		//Fixed Skip Warning messages
-		if ($st_skiptime - 60 == time() && $st_skiptimeamount != 60) { //One minute warning
+		elseif ($st_skiptime - 60 == time() && $st_skiptimeamount != 60) { //One minute warning
 			$aseco->client->query('ChatSendServerMessage', '$z$s>> The map will be skipped in $b00one $z$sminute.');
 		}
-		if ($st_skiptime - 3 == time() && $st_skiptimeamount != 3) { //3 seconds warning
+		elseif ($st_skiptime - 3 == time() && $st_skiptimeamount != 3) { //3 seconds warning
 			$aseco->client->query('ChatSendServerMessage', '$z$s>> The map will be skipped in $b00three $z$sseconds.');
 		}
-		if ($st_skiptime - 2 == time() && $st_skiptimeamount != 2) { //2 seconds warning
+		elseif ($st_skiptime - 2 == time() && $st_skiptimeamount != 2) { //2 seconds warning
 			$aseco->client->query('ChatSendServerMessage', '$z$s>> The map will be skipped in $b00two $z$ssecond.');
 		}
-		if ($st_skiptime - 1 == time() && $st_skiptimeamount != 1) { //1 seconds warning
+		elseif ($st_skiptime - 1 == time() && $st_skiptimeamount != 1) { //1 seconds warning
 			$aseco->client->query('ChatSendServerMessage', '$z$s>> The map will be skipped in $b00one $z$ssecond.');
 		}
 		//Actual skip
-		if ($st_skiptime <= time()) { //Mapskip
+		elseif ($st_skiptime <= time()) { //Mapskip
 			$aseco->client->query('NextChallenge');
 			$st_SkiptimerActivated = false;
 			unset($SkipTime);
