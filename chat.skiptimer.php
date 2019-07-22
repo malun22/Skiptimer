@@ -158,7 +158,7 @@ function skiptimer_onEverySecond($aseco) {
 			$aseco->client->query('ChatSendServerMessageToLogin', '$z$s> ' . $command['params'][1] . '$i$b00 is not a valid unit. Use $z$s<min>$i$b00, $z$s<sec>$i$b00 or $z$s<h>$i$b00 instead.', $login);
 		}			
 	} elseif ($command['params'][0] == 'help') {
-			$aseco->client->query('ChatSendServerMessageToLogin', '$z$s> Use /td skiptimer <Amount> <min/sec/h> to start a Skiptimer. Use a dot [.] for decimal numbers.', $login);
+			$aseco->client->query('ChatSendServerMessageToLogin', '$z$s> Use /skiptimer <Amount> <min/sec/h> to start a Skiptimer. Use a dot [.] for decimal numbers.', $login);
 	} elseif ($command['params'][0] == 'cancel') {
 		if ($st_SkiptimerActivated == true) {
 			$st_SkiptimerActivated = false;
