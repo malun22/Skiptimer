@@ -1,7 +1,6 @@
 <?php
  /*********************************************************\
- *                     Gamemode Plugin                     *
- *          Handles the Gamemode for the next map          *
+ *                         Skiptmer                        *
  ***********************************************************
  *                        Features                         *
  * - Adds a chatcommand with which you can start a timer   *
@@ -59,10 +58,10 @@ function skiptimer_resettimer($aseco) {
 	$st_SkiptimerActivated = false;
  }
  
-function skiptimer_onEverySecond($aseco) {
+function skiptimer_onEverySecond($aseco,$st_SkiptimerActivated = false) {
 	global $st_skiptime, $st_SkiptimerActivated;
 	
-	if ($st_SkiptimerActivated == true) {
+	if ($st_SkiptimerActivated == true && $st_skiptime <= time()) {
 		//Variable Skip Warning messages
 		if ($st_skiptime - $st_skiptimeamount / 2 == time()) { //50% timer Warning
 			$aseco->client->query('ChatSendServerMessage', '$z$s>> The map will be skipped in $b00'. ($st_skiptimeamount / 2) . ' $z$sminute.');
@@ -84,11 +83,10 @@ function skiptimer_onEverySecond($aseco) {
 			$aseco->client->query('ChatSendServerMessage', '$z$s>> The map will be skipped in $b00one $z$ssecond.');
 		}
 		//Actual skip
-		elseif ($st_skiptime <= time()) { //Mapskip
+	} else ($st_skiptime <= time()) { //Mapskip
 			$aseco->client->query('NextChallenge');
 			$st_SkiptimerActivated = false;
-			unset($SkipTime);
-		}
+			unset($SkipTime);	
 	}
 	
 }
